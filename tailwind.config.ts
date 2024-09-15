@@ -8,9 +8,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+      fontFamily: {
+        franklin: ['var(--font-franklin)'],
+        postoni: ['var(--font-postoni)'],
+        georgia: ['var(--font-georgia)'],
       },
     },
   },

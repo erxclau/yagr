@@ -1,101 +1,141 @@
-import Image from "next/image";
+import satori from "satori";
 
-export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+import fonts from "./fonts";
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+export default async function Page() {
+  const width = 640;
+  // const height = 400;
+
+  const svg = await satori(
+    <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            <div
+              style={{
+                fontFamily: "var(--font-franklin)",
+                fontWeight: "bold",
+                fontSize: 20,
+                lineHeight: "22px",
+              }}
+            >
+              Headline
+            </div>
+            <div
+              style={{
+                fontFamily: "var(--font-franklin)",
+                fontSize: 16,
+                lineHeight: "20px",
+              }}
+            >
+              Description
+            </div>
+          </div>
+          <svg width={width} height={75} viewBox={`0 0 ${width} 75`}>
+            {[100, 200, 300].map((d, i) => (
+              <rect
+                x={0}
+                height={25}
+                width={d}
+                y={i * 25}
+                fill="steelblue"
+                key={d}
+              ></rect>
+            ))}
+          </svg>
+
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}
           >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            {[100, 200, 300].map((d) => (
+              <div
+                style={{ width: d, height: 25, backgroundColor: "steelblue" }}
+                key={d}
+              ></div>
+            ))}
+          </div>
+
+          <div style={{ display: "flex", gap: "0.25rem" }}>
+            {[100, 200, 300].map((d) => (
+              <div
+                style={{
+                  width: 25,
+                  height: 25,
+                  borderRadius: "50%",
+                  backgroundColor: "steelblue",
+                }}
+                key={d}
+              ></div>
+            ))}
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+        <div
+          style={{
+            fontFamily: "var(--font-franklin)",
+            fontSize: 16,
+            lineHeight: "20px",
+          }}
         >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+          Note
+        </div>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          width: width,
+        }}
+      >
+        <div
+          style={{
+            fontFamily: "var(--font-franklin)",
+            fontSize: 14,
+            lineHeight: "16px",
+          }}
         >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+          Source: Me
+        </div>
+        <div
+          style={{
+            fontFamily: "var(--font-franklin)",
+            fontSize: 14,
+            lineHeight: "16px",
+          }}
         >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          ERIC LAU/THE WASHINGTON POST
+        </div>
+      </div>
+    </div>,
+    {
+      width,
+      // height,
+      fonts,
+      // embedFont: false,
+      // debug: true,
+      onNodeDetected(node) {
+        console.log(node);
+      },
+    }
+  );
+
+  return (
+    <main className="max-w-[640px] mx-auto my-0 w-full flex flex-col gap-4">
+      <h1 className="font-postoni text-4xl font-bold">Story headline</h1>
+      <div className="flex flex-col gap-2">
+        <p className="font-georgia text-lg">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam
+          cupiditate, pariatur obcaecati, laboriosam voluptatibus architecto
+          nemo adipisci vitae id, eius repellat iusto vel similique et. Natus
+          quos totam quisquam dolorum?
+        </p>
+        <figure dangerouslySetInnerHTML={{ __html: svg }}></figure>
+        <p className="font-georgia text-lg">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam
+          cupiditate, pariatur obcaecati, laboriosam voluptatibus architecto
+          nemo adipisci vitae id, eius repellat iusto vel similique et. Natus
+          quos totam quisquam dolorum?
+        </p>
+      </div>
+    </main>
   );
 }
