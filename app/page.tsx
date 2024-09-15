@@ -135,6 +135,12 @@ export default async function Page() {
           nemo adipisci vitae id, eius repellat iusto vel similique et. Natus
           quos totam quisquam dolorum?
         </p>
+        <svg width={100} height={100}>
+          <rect width={100} height={25} fill="blue"></rect>
+          <svg width={50} height={40}>
+            <rect width={10} height={10} fill="red"></rect>
+          </svg>
+        </svg>
       </div>
     </main>
   );
