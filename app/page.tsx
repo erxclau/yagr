@@ -13,8 +13,8 @@ export default async function Page() {
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             <div
+              tw="font-franklin"
               style={{
-                fontFamily: "var(--font-franklin)",
                 fontWeight: "bold",
                 fontSize: 20,
                 lineHeight: "22px",
@@ -23,8 +23,8 @@ export default async function Page() {
               Headline
             </div>
             <div
+              tw="font-franklin"
               style={{
-                fontFamily: "var(--font-franklin)",
                 fontSize: 16,
                 lineHeight: "20px",
               }}
@@ -71,8 +71,8 @@ export default async function Page() {
           </div>
         </div>
         <div
+          tw="font-franklin"
           style={{
-            fontFamily: "var(--font-franklin)",
             fontSize: 16,
             lineHeight: "20px",
           }}
@@ -88,8 +88,8 @@ export default async function Page() {
         }}
       >
         <div
+          tw="font-franklin"
           style={{
-            fontFamily: "var(--font-franklin)",
             fontSize: 14,
             lineHeight: "16px",
           }}
@@ -97,8 +97,8 @@ export default async function Page() {
           Source: Me
         </div>
         <div
+          tw="font-franklin"
           style={{
-            fontFamily: "var(--font-franklin)",
             fontSize: 14,
             lineHeight: "16px",
           }}
@@ -111,7 +111,17 @@ export default async function Page() {
       width,
       fonts,
       embedFont: false,
-      // debug: true,
+      tailwindConfig: {
+        theme: {
+          extend: {
+            fontFamily: {
+              franklin: ["Franklin"],
+              postoni: ["Postoni"],
+              georgia: ["Georgia"],
+            },
+          },
+        },
+      },
     }
   );
 
