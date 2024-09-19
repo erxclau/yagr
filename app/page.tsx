@@ -8,29 +8,14 @@ export default async function Page() {
   const width = 640;
 
   const svg = await satori(
-    <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-      <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            <div
-              tw="font-franklin"
-              style={{
-                fontWeight: "bold",
-                fontSize: 20,
-                lineHeight: "22px",
-              }}
-            >
+    <div tw="flex flex-col" style={{ gap: 4 }}>
+      <div tw="flex flex-col" style={{ gap: 20 }}>
+        <div tw="flex flex-col" style={{ gap: 16 }}>
+          <div tw="flex flex-col" style={{ gap: 8 }}>
+            <div tw="font-franklin font-bold text-xl leading-[22px]">
               Headline
             </div>
-            <div
-              tw="font-franklin"
-              style={{
-                fontSize: 16,
-                lineHeight: "20px",
-              }}
-            >
-              Description
-            </div>
+            <div tw="font-franklin text-base leading-5">Description</div>
           </div>
           <svg width={width} height={75} viewBox={`0 0 ${width} 75`}>
             {[100, 200, 300].map((d, i) => (
@@ -45,9 +30,7 @@ export default async function Page() {
             ))}
           </svg>
 
-          <div
-            style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}
-          >
+          <div tw="flex flex-col" style={{ gap: "0.25rem" }}>
             {[100, 200, 300].map((d) => (
               <div
                 style={{ width: d, height: 25, backgroundColor: "steelblue" }}
@@ -56,7 +39,7 @@ export default async function Page() {
             ))}
           </div>
 
-          <div style={{ display: "flex", gap: "0.25rem" }}>
+          <div tw="flex" style={{ gap: "0.25rem" }}>
             {[100, 200, 300].map((d) => (
               <div
                 style={{
@@ -70,39 +53,16 @@ export default async function Page() {
             ))}
           </div>
         </div>
-        <div
-          tw="font-franklin"
-          style={{
-            fontSize: 16,
-            lineHeight: "20px",
-          }}
-        >
-          Note
-        </div>
+        <div tw="font-franklin text-base leading-5">Note</div>
       </div>
       <div
+        tw="flex justify-between"
         style={{
-          display: "flex",
-          justifyContent: "space-between",
           width: width,
         }}
       >
-        <div
-          tw="font-franklin"
-          style={{
-            fontSize: 14,
-            lineHeight: "16px",
-          }}
-        >
-          Source: Me
-        </div>
-        <div
-          tw="font-franklin"
-          style={{
-            fontSize: 14,
-            lineHeight: "16px",
-          }}
-        >
+        <div tw="font-franklin text-sm leading-4">Source: Me</div>
+        <div tw="font-franklin text-sm leading-4">
           ERIC LAU/THE WASHINGTON POST
         </div>
       </div>
