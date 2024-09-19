@@ -3,6 +3,7 @@ import satori from "satori";
 import fonts from "./fonts";
 import Paragraph from "./components/Paragraph";
 import Headline from "./components/Headline";
+import Figure from "./components/Figure";
 
 export default async function Page() {
   const width = 640;
@@ -90,7 +91,7 @@ export default async function Page() {
       <Headline />
       <div className="flex flex-col gap-2">
         <Paragraph />
-        <figure dangerouslySetInnerHTML={{ __html: svg }} />
+        <Figure svg={svg} />
         <Paragraph />
       </div>
     </main>
