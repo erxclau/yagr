@@ -4,7 +4,6 @@ import fonts from "./fonts";
 
 export default async function Page() {
   const width = 640;
-  // const height = 400;
 
   const svg = await satori(
     <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
@@ -108,13 +107,9 @@ export default async function Page() {
     </div>,
     {
       width,
-      // height,
       fonts,
-      // embedFont: false,
+      embedFont: false,
       // debug: true,
-      onNodeDetected(node) {
-        console.log(node);
-      },
     }
   );
 
@@ -135,12 +130,6 @@ export default async function Page() {
           nemo adipisci vitae id, eius repellat iusto vel similique et. Natus
           quos totam quisquam dolorum?
         </p>
-        <svg width={100} height={100}>
-          <rect width={100} height={25} fill="blue"></rect>
-          <svg width={50} height={40}>
-            <rect width={10} height={10} fill="red"></rect>
-          </svg>
-        </svg>
       </div>
     </main>
   );
