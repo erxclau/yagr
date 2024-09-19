@@ -1,6 +1,8 @@
 import satori from "satori";
 
 import fonts from "./fonts";
+import Paragraph from "./components/Paragraph";
+import Headline from "./components/Headline";
 
 export default async function Page() {
   const width = 640;
@@ -115,21 +117,11 @@ export default async function Page() {
 
   return (
     <main className="max-w-[640px] mx-auto my-0 w-full flex flex-col gap-4">
-      <h1 className="font-postoni text-4xl font-bold">Story headline</h1>
+      <Headline />
       <div className="flex flex-col gap-2">
-        <p className="font-georgia text-lg">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam
-          cupiditate, pariatur obcaecati, laboriosam voluptatibus architecto
-          nemo adipisci vitae id, eius repellat iusto vel similique et. Natus
-          quos totam quisquam dolorum?
-        </p>
-        <figure dangerouslySetInnerHTML={{ __html: svg }}></figure>
-        <p className="font-georgia text-lg">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam
-          cupiditate, pariatur obcaecati, laboriosam voluptatibus architecto
-          nemo adipisci vitae id, eius repellat iusto vel similique et. Natus
-          quos totam quisquam dolorum?
-        </p>
+        <Paragraph />
+        <figure dangerouslySetInnerHTML={{ __html: svg }} />
+        <Paragraph />
       </div>
     </main>
   );
