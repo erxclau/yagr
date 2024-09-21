@@ -92,6 +92,7 @@ function useTransform(
 
         const g = document.createElement("g");
         g.id = mask.id;
+        g.setAttribute("xmlns", "http://www.w3.org/2000/svg")
 
         for (const element of elements) {
           g.appendChild(element);
