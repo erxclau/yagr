@@ -2,9 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 
-export default function Figure({ id, svg }: { id?: string; svg: string }) {
-  const [vector, setVector] = useState(svg);
-  const ref = useRef<HTMLElement>(null);
+function useTransform(
+  svg: string,
+  vectorizeNestedSVGs = true,
+  groupChildren = true
+) {
+  const [result, setResult] = useState(svg);
 
   useEffect(() => {
     const parser = new DOMParser();
@@ -15,48 +18,111 @@ export default function Figure({ id, svg }: { id?: string; svg: string }) {
       return;
     }
 
-    const prefix = "data:image/svg+xml;utf8,";
+    if (vectorizeNestedSVGs) {
+      const prefix = "data:image/svg+xml;utf8,";
 
-    const images = svgElement.querySelectorAll(`image[href^="${prefix}"]`);
+      const images = svgElement.querySelectorAll(`image[href^="${prefix}"]`);
 
-    images.forEach((image) => {
-      const href = image.getAttribute("href");
-      if (href === null) {
-        return;
-      }
+      images.forEach((image) => {
+        const href = image.getAttribute("href");
+        if (href === null) {
+          return;
+        }
 
-      const data = decodeURI(href);
-      const svgString = data.slice(data.indexOf(prefix) + prefix.length);
+        const data = decodeURI(href);
+        const svgString = data.slice(data.indexOf(prefix) + prefix.length);
 
-      const replacementDocument = parser.parseFromString(
-        svgString,
-        "image/svg+xml"
-      );
-      const replacementSvg = replacementDocument.querySelector("svg");
+        const replacementDocument = parser.parseFromString(
+          svgString,
+          "image/svg+xml"
+        );
+        const replacementSvg = replacementDocument.querySelector("svg");
 
-      if (replacementSvg === null) {
-        return;
-      }
+        if (replacementSvg === null) {
+          return;
+        }
 
-      for (let i = 0; i < image.attributes.length; i++) {
-        const attribute = image.attributes.item(i);
-        if (
-          attribute === null ||
-          attribute.name === "href" ||
-          attribute.name === "mask" ||
-          attribute.name === "clip-path"
-        ) {
+        for (let i = 0; i < image.attributes.length; i++) {
+          const attribute = image.attributes.item(i);
+          if (
+            attribute === null ||
+            attribute.name === "href" ||
+            attribute.name === "mask" ||
+            attribute.name === "clip-path"
+          ) {
+            continue;
+          }
+
+          replacementSvg.setAttribute(attribute.name, attribute.value);
+        }
+
+        image.replaceWith(replacementSvg);
+      });
+    }
+
+    if (groupChildren) {
+      // TODO: group remaining masks...
+      let mask: Element | null = null;
+      const groups: Map<Element, Array<Element>> = new Map();
+      for (let i = 0; i < svgElement.children.length; i++) {
+        const child = svgElement.children[i];
+        if (child.localName === "mask") {
+          mask = child;
+          groups.set(child, []);
           continue;
         }
 
-        replacementSvg.setAttribute(attribute.name, attribute.value);
+        if (child.localName === "clipPath") {
+          child.remove();
+          i -= 1;
+          continue;
+        }
+
+        if (mask === null) {
+          continue;
+        }
+
+        groups.get(mask)?.push(child);
       }
 
-      image.replaceWith(replacementSvg);
-    });
+      for (const [mask, elements] of groups) {
+        if (elements.length === 0) {
+          continue;
+        }
 
-    setVector(svgElement.outerHTML);
-  }, [svg]);
+        const g = document.createElement("g");
+        g.id = mask.id;
+
+        for (const element of elements) {
+          g.appendChild(element);
+        }
+
+        mask.insertAdjacentElement("afterend", g);
+        mask.remove();
+      }
+    }
+
+    setResult(svgElement.outerHTML);
+  }, [svg, vectorizeNestedSVGs, groupChildren]);
+
+  return result;
+}
+
+export default function Figure({
+  svg,
+  id,
+  options = { vectorizeNestedSVGs: true, groupChildren: true },
+}: {
+  svg: string;
+  id?: string;
+  options?: { vectorizeNestedSVGs?: boolean; groupChildren?: boolean };
+}) {
+  const html = useTransform(
+    svg,
+    options.vectorizeNestedSVGs,
+    options.groupChildren
+  );
+  const ref = useRef<HTMLElement>(null);
 
   return (
     <figure ref={ref} id={id} className="flex flex-col gap-1">
@@ -86,7 +152,7 @@ export default function Figure({ id, svg }: { id?: string; svg: string }) {
       >
         Download SVG
       </button>
-      <div dangerouslySetInnerHTML={{ __html: vector }} />
+      <div dangerouslySetInnerHTML={{ __html: html }} />
     </figure>
   );
 }

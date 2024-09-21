@@ -12,10 +12,10 @@ export default async function Page() {
   const svg = await satori(
     <Graphic
       width={width}
-      headline="Headline"
-      description="Description"
-      note="Note"
-      source="Source: Me"
+      headline="Graphic Headline"
+      description="Graphic Description"
+      note="Note: Graphic note"
+      source="Source: Eric Lau"
       byline="ERIC LAU/THE WASHINGTON POST"
     >
       <svg width={width} height={75} viewBox={`0 0 ${width} 75`}>
