@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-// import { isValidElement } from "react";
 
 export default function Graphic({
   width = 640,
@@ -35,7 +34,7 @@ export default function Graphic({
       <div
         tw="flex justify-between"
         style={{
-          width: width,
+          width,
         }}
       >
         <div tw="flex font-franklin text-sm leading-4">{source}</div>

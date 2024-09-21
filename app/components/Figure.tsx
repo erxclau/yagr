@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-export default function Figure({ svg }: { svg: string }) {
+export default function Figure({ id, svg }: { id?: string; svg: string }) {
   const [vector, setVector] = useState(svg);
+  const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const parser = new DOMParser();
@@ -57,5 +58,35 @@ export default function Figure({ svg }: { svg: string }) {
     setVector(svgElement.outerHTML);
   }, [svg]);
 
-  return <figure dangerouslySetInnerHTML={{ __html: vector }} />;
+  return (
+    <figure ref={ref} id={id} className="flex flex-col gap-1">
+      <button
+        onClick={() => {
+          if (ref.current === null) {
+            return;
+          }
+
+          const svg = ref.current.querySelector("svg");
+          if (svg === null) {
+            return;
+          }
+
+          const a = document.createElement("a");
+          const blob = new Blob([svg.outerHTML], { type: "image/svg+xml" });
+          a.href = URL.createObjectURL(blob);
+          a.download =
+            "graphic" +
+            (ref.current.id ? "-" + ref.current.id + "-" : "-") +
+            new Date().toISOString() +
+            ".svg";
+          a.click();
+          a.remove();
+        }}
+        className="outline w-fit p-1 focus:bg-slate-50 hover:bg-slate-50"
+      >
+        Download SVG
+      </button>
+      <div dangerouslySetInnerHTML={{ __html: vector }} />
+    </figure>
+  );
 }
