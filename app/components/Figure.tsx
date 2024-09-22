@@ -85,12 +85,11 @@ function useTransform(
       }
 
       for (const [mask, elements] of groups) {
-        const g = document.createElement("g");
+        const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
         g.id = mask.id;
-        g.setAttribute("xmlns", "http://www.w3.org/2000/svg")
 
         if (elements.length === 0) {
-          const children = svgElement.querySelectorAll(`[id^=${mask.id}]`)
+          const children = svgElement.querySelectorAll(`[id^=${mask.id}]`);
           for (const child of children) {
             if (child === mask) {
               continue;
