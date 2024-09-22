@@ -61,7 +61,6 @@ function useTransform(
     }
 
     if (groupChildren) {
-      // TODO: group remaining masks...
       let mask: Element | null = null;
       const groups: Map<Element, Array<Element>> = new Map();
       for (let i = 0; i < svgElement.children.length; i++) {
@@ -86,19 +85,29 @@ function useTransform(
       }
 
       for (const [mask, elements] of groups) {
-        if (elements.length === 0) {
-          continue;
-        }
-
         const g = document.createElement("g");
         g.id = mask.id;
         g.setAttribute("xmlns", "http://www.w3.org/2000/svg")
 
-        for (const element of elements) {
-          g.appendChild(element);
+        if (elements.length === 0) {
+          const children = svgElement.querySelectorAll(`[id^=${mask.id}]`)
+          for (const child of children) {
+            if (child === mask) {
+              continue;
+            }
+
+            g.appendChild(child);
+          }
+        } else {
+          for (const element of elements) {
+            g.appendChild(element);
+          }
         }
 
-        mask.insertAdjacentElement("afterend", g);
+        if (g.children.length > 0) {
+          mask.insertAdjacentElement("afterend", g);
+        }
+
         mask.remove();
       }
     }
