@@ -36,24 +36,19 @@ function useTransform(
           svgString,
           "image/svg+xml"
         );
+
         const replacementSvg = replacementDocument.querySelector("svg");
 
         if (replacementSvg === null) {
           return;
         }
 
-        for (let i = 0; i < image.attributes.length; i++) {
-          const attribute = image.attributes.item(i);
-          if (
-            attribute === null ||
-            attribute.name === "href" ||
-            attribute.name === "mask" ||
-            attribute.name === "clip-path"
-          ) {
+        for (const { name, value } of image.attributes) {
+          if (name === "href" || name === "mask" || name === "clip-path") {
             continue;
           }
 
-          replacementSvg.setAttribute(attribute.name, attribute.value);
+          replacementSvg.setAttribute(name, value);
         }
 
         image.replaceWith(replacementSvg);
