@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 function useTransform(
   svg: string,
   vectorizeNestedSVGs = true,
+  linkImageHrefs = true,
   groupChildren = true
 ) {
   const [result, setResult] = useState(svg);
@@ -52,6 +53,19 @@ function useTransform(
         }
 
         image.replaceWith(replacementSvg);
+      });
+    }
+
+    if (linkImageHrefs) {
+      const images = svgElement.querySelectorAll("images");
+      images.forEach((image) => {
+        const href = image.getAttribute("href");
+        if (href === null) {
+          return;
+        }
+
+        image.setAttribute("xlink:href", href);
+        image.removeAttribute("href");
       });
     }
 
@@ -107,7 +121,7 @@ function useTransform(
     }
 
     setResult(svgElement.outerHTML);
-  }, [svg, vectorizeNestedSVGs, groupChildren]);
+  }, [svg, vectorizeNestedSVGs, linkImageHrefs, groupChildren]);
 
   return result;
 }
@@ -115,15 +129,24 @@ function useTransform(
 export default function Figure({
   svg,
   id,
-  options = { vectorizeNestedSVGs: true, groupChildren: true },
+  options = {
+    vectorizeNestedSVGs: true,
+    linkImageHrefs: true,
+    groupChildren: true,
+  },
 }: {
   svg: string;
   id?: string;
-  options?: { vectorizeNestedSVGs?: boolean; groupChildren?: boolean };
+  options?: {
+    vectorizeNestedSVGs?: boolean;
+    linkImageHrefs?: boolean;
+    groupChildren?: boolean;
+  };
 }) {
   const html = useTransform(
     svg,
     options.vectorizeNestedSVGs,
+    options.linkImageHrefs,
     options.groupChildren
   );
   const ref = useRef<HTMLElement>(null);
