@@ -25,7 +25,6 @@ const franklin = localFont({
   ],
   fallback: ["Helvetica", "Arial", "sans-serif"],
   variable: "--font-franklin",
-  fixedFontFamily: "Franklin"
 });
 
 const postoni = localFont({
@@ -51,7 +50,6 @@ const postoni = localFont({
   ],
   fallback: ["serif"],
   variable: "--font-postoni",
-  fixedFontFamily: "Postoni"
 });
 
 export const metadata: Metadata = {
