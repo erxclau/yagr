@@ -6,6 +6,8 @@ import Headline from "./components/Headline";
 import Figure from "./components/Figure";
 import Graphic from "./components/Graphic";
 
+import { wpdsColors as colors } from "@/tailwind.config";
+
 export default async function Page() {
   const width = 640;
 
@@ -25,7 +27,7 @@ export default async function Page() {
             height={25}
             width={d}
             y={i * 25}
-            fill="steelblue"
+            fill={colors["wpds-blue200"]}
             key={d}
           ></rect>
         ))}
@@ -34,7 +36,8 @@ export default async function Page() {
       <div tw="flex flex-col" style={{ gap: "0.25rem" }}>
         {[100, 200, 300].map((d) => (
           <div
-            style={{ width: d, height: 25, backgroundColor: "steelblue" }}
+            tw="bg-wpds-blue100"
+            style={{ width: d, height: 25 }}
             key={d}
           ></div>
         ))}
@@ -43,11 +46,11 @@ export default async function Page() {
       <div tw="flex" style={{ gap: "0.25rem" }}>
         {[100, 200, 300].map((d) => (
           <div
+            tw="bg-wpds-blue400"
             style={{
               width: 25,
               height: 25,
               borderRadius: "50%",
-              backgroundColor: "steelblue",
             }}
             key={d}
           ></div>
@@ -61,6 +64,7 @@ export default async function Page() {
       tailwindConfig: {
         theme: {
           extend: {
+            colors: colors,
             fontFamily: {
               franklin: ["Franklin"],
               postoni: ["Postoni"],
