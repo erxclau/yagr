@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 
 export default function Graphic({
-  width = 640,
   headline,
   description,
   note,
@@ -9,7 +8,6 @@ export default function Graphic({
   byline,
   children,
 }: {
-  width?: number;
   headline?: ReactNode;
   description?: ReactNode;
   note?: ReactNode;
@@ -18,7 +16,7 @@ export default function Graphic({
   children?: ReactNode;
 }) {
   return (
-    <div tw="flex flex-col" style={{ gap: 4 }}>
+    <div tw="flex w-full flex-col" style={{ gap: 4 }}>
       <div tw="flex flex-col" style={{ gap: 20 }}>
         <div tw="flex flex-col" style={{ gap: 16 }}>
           <div tw="flex flex-col" style={{ gap: 8 }}>
@@ -31,12 +29,7 @@ export default function Graphic({
         </div>
         <div tw="flex font-franklin text-base leading-5">{note}</div>
       </div>
-      <div
-        tw="flex justify-between"
-        style={{
-          width,
-        }}
-      >
+      <div tw="flex justify-between">
         <div tw="flex font-franklin text-sm leading-4">{source}</div>
         <div tw="flex font-franklin text-sm leading-4">{byline}</div>
       </div>
