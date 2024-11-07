@@ -12,7 +12,7 @@
     "next": "15.0.0",
     "react": "19.0.0-rc-65a56d0e-20241020",
     "react-dom": "19.0.0-rc-65a56d0e-20241020",
-    "satori": "^0.11.0"
+    "satori": "^0.11.3"
   },
   "devDependencies": {
     "@types/node": "^20",
