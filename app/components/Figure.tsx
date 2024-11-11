@@ -19,15 +19,15 @@ function useTransform(
       return;
     }
 
+    const images = svgElement.getElementsByTagName("image");
+
     if (vectorizeNestedSVGs) {
       const prefix = "data:image/svg+xml;utf8,";
 
-      const images = svgElement.querySelectorAll(`image[href^="${prefix}"]`);
-
-      images.forEach((image) => {
+      for (const image of images) {
         const href = image.getAttribute("href");
-        if (href === null) {
-          return;
+        if (href === null || !href.startsWith(prefix)) {
+          continue;
         }
 
         const data = decodeURI(href);
@@ -41,7 +41,7 @@ function useTransform(
         const replacementSvg = replacementDocument.querySelector("svg");
 
         if (replacementSvg === null) {
-          return;
+          continue;
         }
 
         for (const { name, value } of image.attributes) {
@@ -53,20 +53,19 @@ function useTransform(
         }
 
         image.replaceWith(replacementSvg);
-      });
+      }
     }
 
     if (linkImageHrefs) {
-      const images = svgElement.querySelectorAll("images");
-      images.forEach((image) => {
+      for (const image of images) {
         const href = image.getAttribute("href");
         if (href === null) {
-          return;
+          continue;
         }
 
         image.setAttribute("xlink:href", href);
         image.removeAttribute("href");
-      });
+      }
     }
 
     if (groupChildren) {
@@ -121,6 +120,10 @@ function useTransform(
         mask.remove();
       }
 
+      for (const image of images) {
+        image.removeAttribute("mask");
+      }
+
       svgElement.append(...clipPaths);
     }
 
@@ -173,7 +176,7 @@ export default function Figure({
           a.href = URL.createObjectURL(blob);
           a.download =
             "graphic" +
-            (ref.current.id ? "-" + ref.current.id + "-" : "-") +
+            (id ? "-" + id + "-" : "-") +
             new Date().toISOString() +
             ".svg";
           a.click();

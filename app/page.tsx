@@ -36,8 +36,9 @@ const graphic = (
       ))}
     </svg>
 
-    <div tw="w-20 h-20 rounded-full flex">
+    <div tw="w-20 h-20 flex" style={{ gap: "1rem" }}>
       <img alt="" tw="rounded-full" src={imageSrc} width={80} height={80} />
+      <img alt="" src={imageSrc} width={80} height={80} />
     </div>
 
     <div tw="flex flex-col" style={{ gap: "0.25rem" }}>
