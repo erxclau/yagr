@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+
 import { wpdsColors as colors } from "@/tailwind.config";
 
 import Headline from "./components/Headline";
@@ -6,6 +8,10 @@ import Paragraph from "./components/Paragraph";
 import Figure from "./components/Figure";
 import Graphic from "./components/Graphic";
 import stringify from "./stringify";
+
+const imageSrc =
+  "data:image/png;base64," +
+  Buffer.from(readFileSync("./app/img/blank.png")).toString("base64");
 
 const width = 640;
 
@@ -29,6 +35,10 @@ const graphic = (
         ></rect>
       ))}
     </svg>
+
+    <div tw="w-20 h-20 rounded-full flex">
+      <img alt="" tw="rounded-full" src={imageSrc} width={80} height={80} />
+    </div>
 
     <div tw="flex flex-col" style={{ gap: "0.25rem" }}>
       {[100, 200, 300].map((d) => (
@@ -56,7 +66,7 @@ const graphic = (
   </Graphic>
 );
 
-const svg = await stringify(graphic, width)
+const svg = await stringify(graphic, width);
 
 export default async function Page() {
   return (

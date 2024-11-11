@@ -72,6 +72,7 @@ function useTransform(
     if (groupChildren) {
       let mask: Element | null = null;
       const groups: Map<Element, Array<Element>> = new Map();
+      const clipPaths: Array<Element> = [];
       for (let i = 0; i < svgElement.children.length; i++) {
         const child = svgElement.children[i];
         if (child.localName === "mask") {
@@ -82,6 +83,7 @@ function useTransform(
 
         if (child.localName === "clipPath") {
           child.remove();
+          clipPaths.push(child);
           i -= 1;
           continue;
         }
@@ -118,6 +120,8 @@ function useTransform(
 
         mask.remove();
       }
+
+      svgElement.append(...clipPaths);
     }
 
     setResult(svgElement.outerHTML);
