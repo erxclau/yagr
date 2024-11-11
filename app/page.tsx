@@ -41,6 +41,22 @@ const graphic = (
       <img alt="" src={imageSrc} width={80} height={80} />
     </div>
 
+    <div tw="flex" style={{ gap: "1rem" }}>
+      <div
+        tw="w-10 h-10 rounded-full"
+        style={{
+          background: `linear-gradient(135deg, ${colors["wpds-blue200"]} 0%, ${colors["wpds-blue200"]} 50%, ${colors["wpds-blue400"]} 50%, ${colors["wpds-blue400"]} 100%)`,
+        }}
+      />
+
+      <div
+        tw="w-10 h-10 rounded-full"
+        style={{
+          background: `linear-gradient(135deg, ${colors["wpds-red200"]} 0%, ${colors["wpds-red200"]} 50%, ${colors["wpds-red400"]} 50%, ${colors["wpds-red400"]} 100%)`,
+        }}
+      />
+    </div>
+
     <div tw="flex flex-col" style={{ gap: "0.25rem" }}>
       {[100, 200, 300].map((d) => (
         <div

@@ -68,10 +68,26 @@ function useTransform(
       }
     }
 
+    const patterns = svgElement.getElementsByTagName("pattern");
+    for (const pattern of patterns) {
+      const linearGradient = pattern.querySelector("linearGradient");
+      if (linearGradient === null) {
+        continue;
+      }
+
+      const elements = svgElement.querySelectorAll(
+        `[fill="url(#${pattern.id})"]`
+      );
+
+      for (const element of elements) {
+        element.setAttribute("fill", `url(#${linearGradient.id})`);
+      }
+    }
+
     if (groupChildren) {
       let mask: Element | null = null;
       const groups: Map<Element, Array<Element>> = new Map();
-      const clipPaths: Array<Element> = [];
+      const other: Array<Element> = [];
       for (let i = 0; i < svgElement.children.length; i++) {
         const child = svgElement.children[i];
         if (child.localName === "mask") {
@@ -80,9 +96,9 @@ function useTransform(
           continue;
         }
 
-        if (child.localName === "clipPath") {
+        if (child.localName === "clipPath" || child.localName === "defs") {
           child.remove();
-          clipPaths.push(child);
+          other.push(child);
           i -= 1;
           continue;
         }
@@ -124,7 +140,7 @@ function useTransform(
         image.removeAttribute("mask");
       }
 
-      svgElement.append(...clipPaths);
+      svgElement.append(...other);
     }
 
     setResult(svgElement.outerHTML);
