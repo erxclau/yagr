@@ -19,15 +19,15 @@ function useTransform(
       return;
     }
 
+    const images = svgElement.getElementsByTagName("image");
+
     if (vectorizeNestedSVGs) {
       const prefix = "data:image/svg+xml;utf8,";
 
-      const images = svgElement.querySelectorAll(`image[href^="${prefix}"]`);
-
-      images.forEach((image) => {
+      for (const image of images) {
         const href = image.getAttribute("href");
-        if (href === null) {
-          return;
+        if (href === null || !href.startsWith(prefix)) {
+          continue;
         }
 
         const data = decodeURI(href);
@@ -41,7 +41,7 @@ function useTransform(
         const replacementSvg = replacementDocument.querySelector("svg");
 
         if (replacementSvg === null) {
-          return;
+          continue;
         }
 
         for (const { name, value } of image.attributes) {
@@ -53,25 +53,25 @@ function useTransform(
         }
 
         image.replaceWith(replacementSvg);
-      });
+      }
     }
 
     if (linkImageHrefs) {
-      const images = svgElement.querySelectorAll("images");
-      images.forEach((image) => {
+      for (const image of images) {
         const href = image.getAttribute("href");
         if (href === null) {
-          return;
+          continue;
         }
 
         image.setAttribute("xlink:href", href);
         image.removeAttribute("href");
-      });
+      }
     }
 
     if (groupChildren) {
       let mask: Element | null = null;
       const groups: Map<Element, Array<Element>> = new Map();
+      const clipPaths: Array<Element> = [];
       for (let i = 0; i < svgElement.children.length; i++) {
         const child = svgElement.children[i];
         if (child.localName === "mask") {
@@ -82,6 +82,7 @@ function useTransform(
 
         if (child.localName === "clipPath") {
           child.remove();
+          clipPaths.push(child);
           i -= 1;
           continue;
         }
@@ -118,6 +119,12 @@ function useTransform(
 
         mask.remove();
       }
+
+      for (const image of images) {
+        image.removeAttribute("mask");
+      }
+
+      svgElement.append(...clipPaths);
     }
 
     setResult(svgElement.outerHTML);
@@ -169,7 +176,7 @@ export default function Figure({
           a.href = URL.createObjectURL(blob);
           a.download =
             "graphic" +
-            (ref.current.id ? "-" + ref.current.id + "-" : "-") +
+            (id ? "-" + id + "-" : "-") +
             new Date().toISOString() +
             ".svg";
           a.click();
