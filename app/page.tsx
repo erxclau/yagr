@@ -5,9 +5,8 @@ import { wpdsColors as colors } from "@/tailwind.config";
 import Headline from "./components/Headline";
 import Paragraph from "./components/Paragraph";
 
-import Figure from "./components/Figure";
+import Satori from "./components/Satori";
 import Graphic from "./components/Graphic";
-import stringify from "./stringify";
 
 const imageSrc =
   "data:image/png;base64," +
@@ -23,8 +22,13 @@ const graphic = (
     source="Source: Eric Lau"
     byline="ERIC LAU/THE WASHINGTON POST"
   >
-    <div tw="font-franklin text-2xl">
+    <div tw="flex flex-wrap w-full font-franklin text-2xl">
       This group contains a sentence with enough words to wrap to two lines.
+    </div>
+    <div tw="flex flex-wrap w-full font-franklin text-2xl">
+      {/* TODO: fix text rendering */}
+      This group contains <span tw="font-bold">bold text</span> in a sentence
+      with enough words to wrap to two lines.
     </div>
     <svg width={width} height={75} viewBox={`0 0 ${width} 75`}>
       {[100, 200, 300].map((d, i) => (
@@ -86,14 +90,14 @@ const graphic = (
   </Graphic>
 );
 
-const svg = await stringify(graphic, width);
-
 export default async function Page() {
   return (
     <main className="max-w-[640px] mx-auto my-0 w-full flex flex-col gap-4">
       <Headline>yagr-next</Headline>
       <Paragraph>Yet another graphics rig with Next.js.</Paragraph>
-      <Figure svg={svg} />
+      <Satori width={width}>
+        {graphic}
+      </Satori>
     </main>
   );
 }

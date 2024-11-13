@@ -4,9 +4,9 @@ import { useEffect, useRef, useState } from "react";
 
 function useTransform(
   svg: string,
-  vectorizeNestedSVGs = true,
-  linkImageHrefs = true,
-  groupChildren = true
+  vectorizeNestedSVGs: boolean,
+  linkImageHrefs: boolean,
+  groupChildren: boolean
 ) {
   const [result, setResult] = useState(svg);
 
@@ -143,6 +143,7 @@ function useTransform(
       const textGroups = svgElement.querySelectorAll(
         "g:not(:has(> :not(text)))"
       );
+
       for (const textGroup of textGroups) {
         if (textGroup.children.length === 1) {
           continue;
@@ -222,18 +223,14 @@ function useTransform(
 export default function Figure({
   svg,
   id,
-  options = {
-    vectorizeNestedSVGs: true,
-    linkImageHrefs: true,
-    groupChildren: true,
-  },
+  options,
 }: {
   svg: string;
   id?: string;
-  options?: {
-    vectorizeNestedSVGs?: boolean;
-    linkImageHrefs?: boolean;
-    groupChildren?: boolean;
+  options: {
+    vectorizeNestedSVGs: boolean;
+    linkImageHrefs: boolean;
+    groupChildren: boolean;
   };
 }) {
   const html = useTransform(
