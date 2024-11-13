@@ -8,4 +8,4 @@ It is intended for creating flex layouts that can be consumed by Adobe Illustrat
 
 - `vectorizeNestedSVGs` — By default, `satori` will convert nested SVGs into `image` elements. This rig retains the SVGs as vectors that can be manipulated in Illustrator.
 - `linkImageHrefs` — By default, `satori` will use the `href` attribute on any `image` elements. Instead, use the `link:href` attribute which Illustrator uses to properly link image assets.
-- `groupChildren` — Regroups exported SVG eqlements to more closely mirror the JSX input. May result in improper clipping, masking or text rendering.
+- `groupChildren` — Regroups exported SVG elements to more closely mirror the JSX input. May result in improper clipping, masking or text rendering.
