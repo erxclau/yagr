@@ -23,6 +23,9 @@ const graphic = (
     source="Source: Eric Lau"
     byline="ERIC LAU/THE WASHINGTON POST"
   >
+    <div tw="font-franklin text-2xl">
+      This group contains a sentence with enough words to wrap to two lines.
+    </div>
     <svg width={width} height={75} viewBox={`0 0 ${width} 75`}>
       {[100, 200, 300].map((d, i) => (
         <rect

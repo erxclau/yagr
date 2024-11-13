@@ -140,6 +140,76 @@ function useTransform(
         image.removeAttribute("mask");
       }
 
+      const textGroups = svgElement.querySelectorAll(
+        "g:not(:has(> :not(text)))"
+      );
+      for (const textGroup of textGroups) {
+        if (textGroup.children.length === 1) {
+          continue;
+        }
+
+        const lines: Map<string, Array<Element>> = new Map();
+        for (const text of textGroup.children) {
+          const y = text.getAttribute("y");
+          if (y === null) {
+            console.log("Text element is missing y attribute", text);
+            continue;
+          }
+
+          if (lines.has(y)) {
+            lines.get(y)!.push(text);
+          } else {
+            lines.set(y, [text]);
+          }
+        }
+
+        const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        g.id = textGroup.id;
+
+        for (const [y, texts] of lines) {
+          const text = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "text"
+          );
+          text.setAttribute("y", y);
+
+          let x: number | null = null;
+          let width = 0;
+
+          for (const t of texts) {
+            if (t.textContent !== null) {
+              text.textContent += t.textContent;
+            }
+
+            for (const { name, value } of t.attributes) {
+              if (name === "x") {
+                if (x === null || +value < x) {
+                  x = +value;
+                }
+
+                continue;
+              }
+
+              if (name === "width") {
+                width += +value;
+                continue;
+              }
+
+              if (!text.hasAttribute(name)) {
+                text.setAttribute(name, value);
+              }
+            }
+          }
+
+          text.setAttribute("width", String(width));
+          text.setAttribute("x", String(x));
+
+          g.appendChild(text);
+        }
+
+        textGroup.replaceWith(g);
+      }
+
       svgElement.append(...other);
     }
 
