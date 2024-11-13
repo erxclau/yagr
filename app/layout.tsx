@@ -53,7 +53,7 @@ const postoni = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "yagr-next",
+  title: "yagr",
   description: "Yet another graphics rig",
 };
 

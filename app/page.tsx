@@ -93,8 +93,8 @@ const graphic = (
 export default async function Page() {
   return (
     <main className="max-w-[640px] mx-auto my-0 w-full flex flex-col gap-4">
-      <Headline>yagr-next</Headline>
-      <Paragraph>Yet another graphics rig with Next.js.</Paragraph>
+      <Headline>yagr</Headline>
+      <Paragraph>Yet another graphics rig.</Paragraph>
       <Satori width={width}>
         {graphic}
       </Satori>
