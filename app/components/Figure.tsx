@@ -110,24 +110,31 @@ function useTransform(
         groups.get(mask)?.push(child);
       }
 
+      const maskGroups: Map<Element, SVGGElement> = new Map();
+
       for (const [mask, elements] of groups) {
         const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
         g.id = mask.id;
 
-        if (elements.length === 0) {
-          const children = svgElement.querySelectorAll(`[id^=${mask.id}]`);
+        const isTextGroup =
+          elements.length > 0 &&
+          elements.every((element) => element.localName === "text");
+
+        if (elements.length === 0 || isTextGroup) {
+          const children = svgElement.querySelectorAll(
+            `[id^=${mask.id}]:not([id=${mask.id}])`
+          );
+
           for (const child of children) {
-            if (child === mask) {
-              continue;
+            if (isTextGroup) {
+              maskGroups.set(child, g);
             }
 
             g.appendChild(child);
           }
-        } else {
-          for (const element of elements) {
-            g.appendChild(element);
-          }
         }
+
+        g.append(...elements);
 
         if (g.children.length > 0) {
           mask.insertAdjacentElement("afterend", g);
@@ -136,16 +143,25 @@ function useTransform(
         mask.remove();
       }
 
+      for (const [mask, group] of maskGroups) {
+        const childGroup = svgElement.getElementById(mask.id);
+        group.append(...childGroup.children);
+        group.removeChild(childGroup);
+      }
+
+      const richTextGroups = new Set(maskGroups.values());
+
       for (const image of images) {
         image.removeAttribute("mask");
       }
 
-      const textGroups = svgElement.querySelectorAll(
+      const textGroups = svgElement.querySelectorAll<SVGGElement>(
         "g:not(:has(> :not(text)))"
       );
 
       for (const textGroup of textGroups) {
-        if (textGroup.children.length === 1) {
+        // TODO: handle rich text groups in a more appropriate manner, instead of skipping grouping
+        if (textGroup.children.length === 1 || richTextGroups.has(textGroup)) {
           continue;
         }
 
@@ -178,9 +194,11 @@ function useTransform(
           let width = 0;
 
           for (const t of texts) {
-            if (t.textContent !== null) {
-              text.textContent += t.textContent;
+            if (t.textContent === null) {
+              continue;
             }
+
+            text.textContent += t.textContent;
 
             for (const { name, value } of t.attributes) {
               if (name === "x") {

@@ -25,10 +25,12 @@ const graphic = (
     <div tw="flex flex-wrap w-full font-franklin text-2xl">
       This group contains a sentence with enough words to wrap to two lines.
     </div>
-    <div tw="flex flex-wrap w-full font-franklin text-2xl">
-      {/* TODO: fix text rendering */}
-      This group contains <span tw="font-bold">bold text</span> in a sentence
-      with enough words to wrap to two lines.
+    <div
+      tw="flex flex-wrap w-full font-franklin text-2xl"
+      style={{ gap: "5ch" }}
+    >
+      This group contains <span tw="text-wpds-blue100">blue text</span> and{" "}
+      <b>bold text</b> in a sentence.
     </div>
     <svg width={width} height={75} viewBox={`0 0 ${width} 75`}>
       {[100, 200, 300].map((d, i) => (
@@ -95,9 +97,7 @@ export default async function Page() {
     <main className="max-w-[640px] mx-auto my-0 w-full flex flex-col gap-4">
       <Headline>yagr</Headline>
       <Paragraph>Yet another graphics rig.</Paragraph>
-      <Satori width={width}>
-        {graphic}
-      </Satori>
+      <Satori width={width}>{graphic}</Satori>
     </main>
   );
 }
