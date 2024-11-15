@@ -96,6 +96,7 @@ export default async function Page() {
   return (
     <main className="max-w-[640px] mx-auto my-0 w-full flex flex-col gap-4">
       <Headline>yagr</Headline>
+
       <Paragraph>Yet another graphics rig.</Paragraph>
       <Svg width={width}>{graphic}</Svg>
     </main>
