@@ -5,7 +5,7 @@ import { wpdsColors as colors } from "@/tailwind.config";
 import Headline from "./components/Headline";
 import Paragraph from "./components/Paragraph";
 
-import Satori from "./components/Satori";
+import Svg from "./components/svg/Server";
 import Graphic from "./components/Graphic";
 
 const imageSrc =
@@ -97,7 +97,7 @@ export default async function Page() {
     <main className="max-w-[640px] mx-auto my-0 w-full flex flex-col gap-4">
       <Headline>yagr</Headline>
       <Paragraph>Yet another graphics rig.</Paragraph>
-      <Satori width={width}>{graphic}</Satori>
+      <Svg width={width}>{graphic}</Svg>
     </main>
   );
 }

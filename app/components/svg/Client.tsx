@@ -238,7 +238,7 @@ function useTransform(
   return result;
 }
 
-export default function Figure({
+export default function Client({
   svg,
   id,
   options,

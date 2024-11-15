@@ -3,9 +3,10 @@ import satori from "satori";
 
 import fonts from "@/app/fonts";
 import { wpdsColors } from "@/tailwind.config";
-import Figure from "./Figure";
 
-export default async function Satori({
+import Client from "./Client";
+
+export default async function Server({
   children,
   width,
   id = undefined,
@@ -46,7 +47,7 @@ export default async function Satori({
   });
 
   return (
-    <Figure
+    <Client
       svg={svg}
       id={id}
       options={{
