@@ -149,8 +149,6 @@ function useTransform(
         group.removeChild(childGroup);
       }
 
-      const richTextGroups = new Set(maskGroups.values());
-
       for (const image of images) {
         image.removeAttribute("mask");
       }
@@ -160,8 +158,7 @@ function useTransform(
       );
 
       for (const textGroup of textGroups) {
-        // TODO: handle rich text groups in a more appropriate manner, instead of skipping grouping
-        if (textGroup.children.length === 1 || richTextGroups.has(textGroup)) {
+        if (textGroup.children.length === 1) {
           continue;
         }
 
@@ -191,15 +188,19 @@ function useTransform(
           text.setAttribute("y", y);
 
           let x: number | null = null;
-          let width = 0;
+          const textAttributes: Map<string, string> = new Map();
+          let span: SVGTSpanElement = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "tspan"
+          );
 
           for (const t of texts) {
             if (t.textContent === null) {
               continue;
             }
 
-            text.textContent += t.textContent;
-
+            let shouldCreateNewSpan = false;
+            const spanAttributes: Set<string> = new Set();
             for (const { name, value } of t.attributes) {
               if (name === "x") {
                 if (x === null || +value < x) {
@@ -210,18 +211,67 @@ function useTransform(
               }
 
               if (name === "width") {
-                width += +value;
                 continue;
               }
 
-              if (!text.hasAttribute(name)) {
+              if (textAttributes.get(name) !== value) {
+                shouldCreateNewSpan = true;
+              }
+
+              spanAttributes.add(name);
+              textAttributes.set(name, value);
+            }
+
+            if (shouldCreateNewSpan) {
+              if (text.children.length > 0) {
+                span = document.createElementNS(
+                  "http://www.w3.org/2000/svg",
+                  "tspan"
+                );
+
+                span.append(" ");
+              }
+
+              for (const name of spanAttributes) {
+                span.setAttribute(name, textAttributes.get(name) ?? "");
+              }
+
+              text.appendChild(span);
+            }
+
+            span.append(t.textContent);
+          }
+
+          text.setAttribute("x", String(x));
+
+          if (text.children.length === 1) {
+            for (const { name, value } of span.attributes) {
+              text.setAttribute(name, value);
+            }
+
+            const spanTextContent = span.textContent;
+            text.removeChild(span);
+            text.textContent = spanTextContent;
+          } else {
+            for (const [name, value] of textAttributes) {
+              let common = true;
+
+              for (const span of text.children) {
+                if (span.getAttribute(name) !== value) {
+                  common = false;
+                  break;
+                }
+              }
+
+              if (common) {
+                for (const span of text.children) {
+                  span.removeAttribute(name);
+                }
+
                 text.setAttribute(name, value);
               }
             }
           }
-
-          text.setAttribute("width", String(width));
-          text.setAttribute("x", String(x));
 
           g.appendChild(text);
         }

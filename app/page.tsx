@@ -5,7 +5,7 @@ import { wpdsColors as colors } from "@/tailwind.config";
 import Headline from "./components/Headline";
 import Paragraph from "./components/Paragraph";
 
-import Svg from "./components/svg/Server";
+import Vector from "./components/svg/Server";
 import Graphic from "./components/Graphic";
 
 const imageSrc =
@@ -25,12 +25,15 @@ const graphic = (
     <div tw="flex flex-wrap w-full font-franklin text-2xl">
       This group contains a sentence with enough words to wrap to two lines.
     </div>
-    <div
-      tw="flex flex-wrap w-full font-franklin text-2xl"
-      style={{ gap: "5ch" }}
-    >
+    <div tw="flex flex-wrap w-full font-franklin text-2xl">
       This group contains <span tw="text-wpds-blue100">blue text</span> and{" "}
-      <b>bold text</b> in a sentence.
+      <span>
+        <b>bold</b>{" "}
+        <b>
+          <i>italics</i>
+        </b>
+      </span>{" "}
+      in a sentence.
     </div>
     <svg width={width} height={75} viewBox={`0 0 ${width} 75`}>
       {[100, 200, 300].map((d, i) => (
@@ -98,7 +101,7 @@ export default async function Page() {
       <Headline>yagr</Headline>
 
       <Paragraph>Yet another graphics rig.</Paragraph>
-      <Svg width={width}>{graphic}</Svg>
+      <Vector width={width}>{graphic}</Vector>
     </main>
   );
 }
