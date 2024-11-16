@@ -5,8 +5,10 @@ import { wpdsColors as colors } from "@/tailwind.config";
 import Headline from "./components/Headline";
 import Paragraph from "./components/Paragraph";
 
-import Vector from "./components/svg/Server";
+import Satori from "./components/satori/Server";
 import Graphic from "./components/Graphic";
+
+import fonts from "./fonts";
 
 const imageSrc =
   "data:image/png;base64," +
@@ -101,7 +103,27 @@ export default async function Page() {
       <Headline>yagr</Headline>
 
       <Paragraph>Yet another graphics rig.</Paragraph>
-      <Vector width={width}>{graphic}</Vector>
+      <Satori
+        options={{
+          width,
+          fonts,
+          embedFont: false,
+          debug: false,
+          tailwindConfig: {
+            theme: {
+              extend: {
+                colors,
+                fontFamily: {
+                  franklin: ["Franklin"],
+                  postoni: ["Postoni"],
+                },
+              },
+            },
+          },
+        }}
+      >
+        {graphic}
+      </Satori>
     </main>
   );
 }
