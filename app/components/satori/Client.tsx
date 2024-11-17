@@ -19,7 +19,7 @@ function useTransform(
       return;
     }
 
-    const images = svgElement.getElementsByTagName("image");
+    const images = svgElement.querySelectorAll("image");
 
     if (vectorizeNestedSVGs) {
       const prefix = "data:image/svg+xml;utf8,";
@@ -68,7 +68,7 @@ function useTransform(
       }
     }
 
-    const patterns = svgElement.getElementsByTagName("pattern");
+    const patterns = svgElement.querySelectorAll("pattern");
     for (const pattern of patterns) {
       const linearGradient = pattern.querySelector("linearGradient");
       if (linearGradient === null) {
