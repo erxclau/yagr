@@ -7,6 +7,7 @@ import Paragraph from "./components/Paragraph";
 
 import Satori from "./components/satori/Server";
 import Graphic from "./components/Graphic";
+import Arrow from "./components/Arrow";
 
 import fonts from "./fonts";
 
@@ -49,6 +50,15 @@ const graphic = (
         ></rect>
       ))}
     </svg>
+
+    <Arrow
+      x1={165}
+      y1={127.5}
+      x0={250}
+      y0={175}
+      head="end"
+      options={{ bow: 0, flip: true }}
+    />
 
     <div tw="w-20 h-20 flex" style={{ gap: "1rem" }}>
       <img alt="" tw="rounded-full" src={imageSrc} width={80} height={80} />
