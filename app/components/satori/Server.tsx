@@ -21,8 +21,8 @@ export default async function Server({
   const svg = await satori(children, options);
   return (
     <Client
-      svg={svg}
       id={id}
+      svg={svg}
       options={{
         vectorizeNestedSVGs,
         linkImageHrefs,
