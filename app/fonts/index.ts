@@ -25,50 +25,50 @@ const PostoniLightItalic = readFileSync(
 const fonts: Array<Font> = [
   {
     name: "Franklin",
-    data: FranklinITCStdBold.buffer,
+    data: FranklinITCStdBold,
     weight: 800,
     style: "normal",
   },
   {
     name: "Franklin",
-    data: FranklinITCStdBoldItalic.buffer,
+    data: FranklinITCStdBoldItalic,
     weight: 800,
     style: "italic",
   },
   {
     name: "Franklin",
-    data: FranklinITCStdLight.buffer,
+    data: FranklinITCStdLight,
     weight: 400,
     style: "normal",
   },
   {
     name: "Franklin",
-    data: FranklinITCStdLightItalic.buffer,
+    data: FranklinITCStdLightItalic,
     weight: 400,
     style: "italic",
   },
 
   {
     name: "Postoni",
-    data: PostoniBold.buffer,
+    data: PostoniBold,
     weight: 800,
     style: "normal",
   },
   {
     name: "Postoni",
-    data: PostoniBoldItalic.buffer,
+    data: PostoniBoldItalic,
     weight: 800,
     style: "italic",
   },
   {
     name: "Postoni",
-    data: PostoniLight.buffer,
+    data: PostoniLight,
     weight: 400,
     style: "normal",
   },
   {
     name: "Postoni",
-    data: PostoniLightItalic.buffer,
+    data: PostoniLightItalic,
     weight: 400,
     style: "italic",
   },

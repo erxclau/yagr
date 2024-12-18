@@ -25,12 +25,16 @@ export async function write(
 }
 
 export async function writeSvg(svg: string, id: string | undefined) {
-	await write(Buffer.from(svg), id, "svg");
+  await write(Buffer.from(svg), id, "svg");
 }
 
 export async function writePng(svg: string, id: string | undefined) {
   const image = await renderAsync(svg, {
     background: "white",
+    font: {
+      loadSystemFonts: false,
+      fontDirs: ["./app/fonts/franklin", "./app/fonts/postoni"],
+    },
   });
   const buffer = image.asPng();
   await write(buffer, id, "png");
