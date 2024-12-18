@@ -30,6 +30,10 @@ export async function writeSvg(svg: string, id: string | undefined) {
 
 export async function writePng(svg: string, id: string | undefined) {
   const image = await renderAsync(svg, {
+    fitTo: {
+      mode: "width",
+      value: 2300,
+    },
     background: "white",
     font: {
       loadSystemFonts: false,
