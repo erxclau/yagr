@@ -14,7 +14,15 @@ const imageSrc =
   "data:image/png;base64," +
   Buffer.from(readFileSync("./app/img/blank.png")).toString("base64");
 
-const width = 640;
+const sizes = {
+  xxsmall: 304,
+  xsmall: 384,
+  medium: 640,
+  xlarge: 960,
+} as const;
+
+const width = sizes.medium;
+const id: string | undefined = undefined;
 
 const graphic = (
   <Graphic
@@ -51,7 +59,10 @@ const graphic = (
     </svg>
 
     <div tw="w-20 h-20 flex" style={{ gap: "1rem" }}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img alt="" tw="rounded-full" src={imageSrc} width={80} height={80} />
+
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img alt="" src={imageSrc} width={80} height={80} />
     </div>
 
@@ -99,31 +110,41 @@ const graphic = (
 
 export default async function Page() {
   return (
-    <main className="max-w-[640px] mx-auto my-0 w-full flex flex-col gap-4">
+    <main
+      className="mx-auto my-0 w-full flex flex-col gap-4"
+      style={{ maxWidth: width }}
+    >
       <Headline>yagr</Headline>
 
       <Paragraph>Yet another graphics rig.</Paragraph>
-      <Satori
-        options={{
-          width,
-          fonts,
-          embedFont: false,
-          debug: false,
-          tailwindConfig: {
-            theme: {
-              extend: {
-                colors,
-                fontFamily: {
-                  franklin: ["Franklin"],
-                  postoni: ["Postoni"],
+      <div className="flex flex-col gap-4">
+        <div className="font-mono">
+          <div>width: {width}px</div>
+          {id === undefined ? null : <div>id: {id}</div>}
+        </div>
+        <Satori
+          id={id}
+          options={{
+            width,
+            fonts,
+            embedFont: false,
+            debug: false,
+            tailwindConfig: {
+              theme: {
+                extend: {
+                  colors,
+                  fontFamily: {
+                    franklin: ["Franklin"],
+                    postoni: ["Postoni"],
+                  },
                 },
               },
             },
-          },
-        }}
-      >
-        {graphic}
-      </Satori>
+          }}
+        >
+          {graphic}
+        </Satori>
+      </div>
     </main>
   );
 }

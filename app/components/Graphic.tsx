@@ -29,9 +29,12 @@ export default function Graphic({
         </div>
         <div tw="flex font-franklin text-base leading-5">{note}</div>
       </div>
-      <div tw="flex justify-between">
+      <div
+        tw="flex justify-between flex-wrap"
+        style={{ rowGap: 2, columnGap: 4 }}
+      >
         <div tw="flex font-franklin text-sm leading-4">{source}</div>
-        <div tw="flex font-franklin text-sm leading-4">{byline}</div>
+        <div tw="flex font-franklin text-sm leading-4 ml-auto">{byline}</div>
       </div>
     </div>
   );
