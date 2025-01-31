@@ -11,17 +11,19 @@ export default function Button({
   const [isPending, startTransition] = useTransition();
 
   return (
-    <WPDSButton
-      variant="primary"
-      density="compact"
-      disabled={isPending}
-      onClick={() => {
-        startTransition(async () => {
-          await onClick();
-        });
-      }}
-    >
-      {children}
-    </WPDSButton>
+    <div style={{ minHeight: 32 }}>
+      <WPDSButton
+        variant="primary"
+        density="compact"
+        disabled={isPending}
+        onClick={() => {
+          startTransition(async () => {
+            await onClick();
+          });
+        }}
+      >
+        {children}
+      </WPDSButton>
+    </div>
   );
 }
