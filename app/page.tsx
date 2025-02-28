@@ -8,8 +8,6 @@ import Paragraph from "./components/Paragraph";
 import Satori from "./components/satori/Server";
 import Graphic from "./components/Graphic";
 
-import fonts from "./fonts";
-
 const imageSrc =
   "data:image/png;base64," +
   Buffer.from(readFileSync("./app/img/blank.png")).toString("base64");
@@ -22,7 +20,6 @@ const sizes = {
 } as const;
 
 const width = sizes.medium;
-const id: string | undefined = undefined;
 
 const graphic = (
   <Graphic
@@ -117,31 +114,8 @@ export default async function Page() {
       <Headline>yagr</Headline>
 
       <Paragraph>Yet another graphics rig.</Paragraph>
-      <div className="flex flex-col gap-4">
-        <div className="font-mono">
-          <div>width: {width}px</div>
-          {id === undefined ? null : <div>id: {id}</div>}
-        </div>
-        <Satori
-          id={id}
-          options={{
-            width,
-            fonts,
-            embedFont: false,
-            debug: false,
-            tailwindConfig: {
-              theme: {
-                extend: {
-                  colors,
-                  fontFamily: {
-                    franklin: ["Franklin"],
-                    postoni: ["Postoni"],
-                  },
-                },
-              },
-            },
-          }}
-        >
+      <div className="flex flex-col gap-8">
+        <Satori id="medium" options={{ width: sizes.medium }}>
           {graphic}
         </Satori>
       </div>
