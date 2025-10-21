@@ -281,7 +281,9 @@ function transform(
     svgElement.append(...other);
   }
 
-  return svgElement.outerHTML;
+  return svgElement.outerHTML
+    .replaceAll('font-family="franklin"', 'font-family="Franklin ITC Std"')
+    .replaceAll('font-weight="normal"', 'font-weight="300"');
 }
 
 function useTransform(
