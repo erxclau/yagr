@@ -8,7 +8,7 @@ import { renderAsync } from "@resvg/resvg-js";
 export async function write(
   buffer: Buffer,
   id: string | undefined,
-  extension: "svg" | "png"
+  extension: "svg" | "png",
 ) {
   const fileName =
     "graphic" +
@@ -17,11 +17,11 @@ export async function write(
     "." +
     extension;
 
-  if (!existsSync("./.yagr")) {
-    mkdirSync("./.yagr");
+  if (!existsSync("./yagr")) {
+    mkdirSync("./yagr");
   }
 
-  await writeFile(`./.yagr/${fileName}`, buffer);
+  await writeFile(`./yagr/${fileName}`, buffer);
 }
 
 export async function writeSvg(svg: string, id: string | undefined) {
