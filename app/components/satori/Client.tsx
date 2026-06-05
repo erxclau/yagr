@@ -6,6 +6,7 @@ import Button from "./Button";
 
 function transform(
   svg: string,
+  id: string | undefined,
   vectorizeNestedSVGs: boolean,
   linkImageHrefs: boolean,
   groupChildren: boolean,
@@ -147,6 +148,7 @@ function transform(
       if (childGroup === null) {
         continue;
       }
+
       group.append(...childGroup.children);
       group.removeChild(childGroup);
     }
@@ -284,6 +286,28 @@ function transform(
     svgElement.append(...other);
   }
 
+  if (id !== undefined) {
+    for (const image of images) {
+      const clipPathAttr = image.getAttribute("clip-path");
+      if (clipPathAttr === null) {
+        continue;
+      }
+
+      const clipPathId = clipPathAttr.substring(
+        "url(#".length,
+        clipPathAttr.lastIndexOf(")"),
+      );
+
+      const clipPath = svgElement.getElementById(clipPathId);
+      if (clipPath === null) {
+        continue;
+      }
+
+      image.setAttribute("clip-path", `url(#${id}-${clipPathId}`);
+      clipPath.id = `${id}-${clipPathId}`;
+    }
+  }
+
   return svgElement.outerHTML
     .replaceAll('font-family="franklin"', 'font-family="Franklin ITC Std"')
     .replaceAll('font-weight="normal"', 'font-weight="300"');
@@ -291,6 +315,7 @@ function transform(
 
 function useTransform(
   svg: string,
+  id: string | undefined,
   vectorizeNestedSVGs: boolean,
   linkImageHrefs: boolean,
   groupChildren: boolean,
@@ -300,6 +325,7 @@ function useTransform(
   useEffect(() => {
     const transformation = transform(
       svg,
+      id,
       vectorizeNestedSVGs,
       linkImageHrefs,
       groupChildren,
@@ -325,6 +351,7 @@ export default function Client({
 }) {
   const html = useTransform(
     svg,
+    id,
     options.vectorizeNestedSVGs,
     options.linkImageHrefs,
     options.groupChildren,
@@ -358,6 +385,7 @@ export default function Client({
             onClick={async () => {
               const transformation = transform(
                 svg,
+                id,
                 options.vectorizeNestedSVGs,
                 false,
                 options.groupChildren,
