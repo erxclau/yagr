@@ -80,7 +80,16 @@ function transform(
     );
 
     for (const element of elements) {
-      element.setAttribute("fill", `url(#${linearGradient.id})`);
+      if (id === undefined) {
+        element.setAttribute("fill", `url(#${linearGradient.id})`);
+      } else {
+        element.setAttribute("fill", `url(#${id}-${linearGradient.id})`);
+      }
+    }
+
+    if (id !== undefined) {
+      pattern.id = id + `-` + pattern.id;
+      linearGradient.id = id + `-` + linearGradient.id;
     }
   }
 
