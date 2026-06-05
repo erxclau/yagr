@@ -1,5 +1,7 @@
 # yagr
 
+Install with `npm i --legacy-peer-deps`.
+
 `yagr` is yet another graphics rig, built using Next and [Satori](https://github.com/vercel/satori).
 
 It is intended for creating flex layouts that can be consumed by Adobe Illustrator. Complex flex- or grid- like layouts can be difficult to create and maintain in SVG. Satori solves for this by converting flex-based JSX to SVG.

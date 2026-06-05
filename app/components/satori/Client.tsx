@@ -8,7 +8,7 @@ function transform(
   svg: string,
   vectorizeNestedSVGs: boolean,
   linkImageHrefs: boolean,
-  groupChildren: boolean
+  groupChildren: boolean,
 ) {
   const parser = new DOMParser();
   const document = parser.parseFromString(svg, "image/svg+xml");
@@ -34,7 +34,7 @@ function transform(
 
       const replacementDocument = parser.parseFromString(
         svgString,
-        "image/svg+xml"
+        "image/svg+xml",
       );
 
       const replacementSvg = replacementDocument.querySelector("svg");
@@ -75,7 +75,7 @@ function transform(
     }
 
     const elements = svgElement.querySelectorAll(
-      `[fill="url(#${pattern.id})"]`
+      `[fill="url(#${pattern.id})"]`,
     );
 
     for (const element of elements) {
@@ -121,7 +121,7 @@ function transform(
 
       if (elements.length === 0 || isTextGroup) {
         const children = svgElement.querySelectorAll(
-          `[id^=${mask.id}]:not([id=${mask.id}])`
+          `[id^=${mask.id}]:not([id=${mask.id}])`,
         );
 
         for (const child of children) {
@@ -144,6 +144,9 @@ function transform(
 
     for (const [mask, group] of maskGroups) {
       const childGroup = svgElement.getElementById(mask.id);
+      if (childGroup === null) {
+        continue;
+      }
       group.append(...childGroup.children);
       group.removeChild(childGroup);
     }
@@ -153,7 +156,7 @@ function transform(
     }
 
     const textGroups = svgElement.querySelectorAll<SVGGElement>(
-      "g:not(:has(> :not(text)))"
+      "g:not(:has(> :not(text)))",
     );
 
     for (const textGroup of textGroups) {
@@ -182,7 +185,7 @@ function transform(
       for (const [y, texts] of lines) {
         const text = document.createElementNS(
           "http://www.w3.org/2000/svg",
-          "text"
+          "text",
         );
         text.setAttribute("y", y);
 
@@ -190,7 +193,7 @@ function transform(
         const textAttributes: Map<string, string> = new Map();
         let span: SVGTSpanElement = document.createElementNS(
           "http://www.w3.org/2000/svg",
-          "tspan"
+          "tspan",
         );
 
         for (const t of texts) {
@@ -225,7 +228,7 @@ function transform(
             if (text.children.length > 0) {
               span = document.createElementNS(
                 "http://www.w3.org/2000/svg",
-                "tspan"
+                "tspan",
               );
 
               span.append(" ");
@@ -290,7 +293,7 @@ function useTransform(
   svg: string,
   vectorizeNestedSVGs: boolean,
   linkImageHrefs: boolean,
-  groupChildren: boolean
+  groupChildren: boolean,
 ) {
   const [result, setResult] = useState(svg);
 
@@ -299,7 +302,7 @@ function useTransform(
       svg,
       vectorizeNestedSVGs,
       linkImageHrefs,
-      groupChildren
+      groupChildren,
     );
     setResult(transformation);
   }, [svg, vectorizeNestedSVGs, linkImageHrefs, groupChildren]);
@@ -324,7 +327,7 @@ export default function Client({
     svg,
     options.vectorizeNestedSVGs,
     options.linkImageHrefs,
-    options.groupChildren
+    options.groupChildren,
   );
 
   const figure = useRef<HTMLElement>(null);
@@ -357,7 +360,7 @@ export default function Client({
                 svg,
                 options.vectorizeNestedSVGs,
                 false,
-                options.groupChildren
+                options.groupChildren,
               );
 
               await writePng(transformation, id);

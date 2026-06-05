@@ -13,10 +13,9 @@ const imageSrc =
   Buffer.from(readFileSync("./app/img/blank.png")).toString("base64");
 
 const sizes = {
-  xxsmall: 304,
-  xsmall: 384,
+  small: 358,
   medium: 640,
-  xlarge: 960,
+  large: 960,
 } as const;
 
 const width = sizes.medium;
