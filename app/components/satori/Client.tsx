@@ -312,7 +312,7 @@ function transform(
         continue;
       }
 
-      image.setAttribute("clip-path", `url(#${id}-${clipPathId}`);
+      image.setAttribute("clip-path", `url(#${id}-${clipPathId})`);
       clipPath.id = `${id}-${clipPathId}`;
     }
   }
